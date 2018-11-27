@@ -31,8 +31,9 @@ const catChatPhrases = [
   'いい子、いい子。',
   'にゃんすた'
 ];
-const generateRandomCatChatPhrase = function() {
-  return "hello";
+const generateRandomCatChatPhrase = function(catChatPhrases) {
+  const randomInt = getRandomInt(0, 6);
+  return catChatPhrases[randomInt];
 };
 
 // see https://market.mashape.com/blaazetech/robohash-image-generator
@@ -55,7 +56,7 @@ const generateRobotThumb = function() {
     });
 };
 
-const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrase) {
+const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrases) {
   const containerEl = document.querySelector('#container .chats');
 
   // ポストの枠である要素
@@ -70,7 +71,7 @@ const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrase) {
   catThumbEl.src = catThumbUrl;
 
   const catChatPhraseEl = document.createElement('P');
-  catChatPhraseEl.innerText = generateRandomCatChatPhrase();
+  catChatPhraseEl.innerText = generateRandomCatChatPhrase(catChatPhrases);
 
   // ポストの子要素を組み合わせる（次々と追加していく）
   postEl.appendChild(robotThumbEl);
@@ -93,7 +94,7 @@ const addPost = async function() {
     // const robotThumb = resultsArray[0];
     // const catThumb = resultsArray[1];
     // 「分割代入」と呼びます。https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-    renderPost(robotThumb.imageUrl, catThumb[0].url, 'hello');
+    renderPost(robotThumb.imageUrl, catThumb[0].url, catChatPhrases);
   });
 };
 
