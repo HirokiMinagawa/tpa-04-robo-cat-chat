@@ -31,9 +31,8 @@ const catChatPhrases = [
   'いい子、いい子。',
   'にゃんすた'
 ];
-const generateRandomCatChatPhrase = function(catChatPhrases) {
-  const randomInt = getRandomInt(0, 6);
-  return catChatPhrases[randomInt];
+const generateRandomCatChatPhrase = function() {
+  return catChatPhrases[getRandomInt(0, catChatPhrases.length - 1)];
 };
 
 // see https://market.mashape.com/blaazetech/robohash-image-generator
@@ -56,7 +55,7 @@ const generateRobotThumb = function() {
     });
 };
 
-const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrases) {
+const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrase) {
   const containerEl = document.querySelector('#container .chats');
 
   // ポストの枠である要素
@@ -71,7 +70,7 @@ const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrases) {
   catThumbEl.src = catThumbUrl;
 
   const catChatPhraseEl = document.createElement('P');
-  catChatPhraseEl.innerText = generateRandomCatChatPhrase(catChatPhrases);
+  catChatPhraseEl.innerText = catChatPhrase;
 
   // ポストの子要素を組み合わせる（次々と追加していく）
   postEl.appendChild(robotThumbEl);
@@ -87,14 +86,15 @@ const addPost = async function() {
   Promise.all([
     generateRobotThumb(),
     generateCatThumb()
+    generateRandomCatChatPhrase();
   ])
   .then(function(resultsArray) {
-    [robotThumb, catThumb] = resultsArray;
+    [robotThumb, catThumb, catChatPhrase] = resultsArray;
     //　上の行はこの書き方の略、意味的に同じです：
     // const robotThumb = resultsArray[0];
     // const catThumb = resultsArray[1];
     // 「分割代入」と呼びます。https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
-    renderPost(robotThumb.imageUrl, catThumb[0].url, catChatPhrases);
+    renderPost(robotThumb.imageUrl, catThumb[0].url, catChatPhrase);
   });
 };
 
