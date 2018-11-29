@@ -85,8 +85,8 @@ const renderPost = function(robotThumbUrl, catThumbUrl, catChatPhrase) {
 const addPost = async function() {
   Promise.all([
     generateRobotThumb(),
-    generateCatThumb()
-    generateRandomCatChatPhrase();
+    generateCatThumb(),
+    generateRandomCatChatPhrase()
   ])
   .then(function(resultsArray) {
     [robotThumb, catThumb, catChatPhrase] = resultsArray;
